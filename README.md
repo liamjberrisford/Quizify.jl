@@ -2,7 +2,6 @@
 
 [![CI](https://github.com/berrli/Quizify.jl/actions/workflows/ci.yml/badge.svg)](https://github.com/berrli/Quizify.jl/actions/workflows/ci.yml)  
 [![Test Suite](https://github.com/berrli/Quizify.jl/actions/workflows/test.yml/badge.svg)](https://github.com/berrli/Quizify.jl/actions/workflows/test.yml)  
-[![Codecov](https://codecov.io/gh/berrli/Quizify.jl/branch/main/graph/badge.svg)](https://codecov.io/gh/berrli/Quizify.jl)  
 [![Docs](https://github.com/berrli/Quizify.jl/actions/workflows/ci.yml/badge.svg?event=push)](https://berrli.github.io/Quizify.jl/)  
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
