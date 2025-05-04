@@ -9,7 +9,6 @@ makedocs(
   modules    = [Quizify],
   pages      = [
     "Home"      => "index.md",
-    "Reference" => "reference.md",
   ],
   format     = Documenter.HTML(
     canonical = "https://berrli.github.io/Quizify.jl",
