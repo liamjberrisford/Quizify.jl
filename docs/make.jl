@@ -17,3 +17,9 @@ makedocs(
   authors    = "Liam J Berrisford",
   # skip_missing_docs = true    # <- you can un-comment this
 )
+
+deploydocs(
+  repo      = "github.com/berrli/Quizify.jl",
+  devbranch = "main",                      # your default branch
+  branch    = "gh-pages",                  # where to push the docs
+)
