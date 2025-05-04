@@ -4,3 +4,4 @@ Quizify.jl renders static HTML quizzes from JSON files, for easy embedding in co
 
 ```@autodocs
 Modules = [Quizify]
+```

@@ -49,25 +49,33 @@ jobs:
       statuses: write
     steps:
       - uses: actions/checkout@v4
+
       - uses: julia-actions/setup-julia@v2
         with:
-          version: '1'
+          version: '1'        # latest 1.x series (has the inline-table fix)
+
       - uses: julia-actions/cache@v2
+
       - name: Configure doc environment
+        env:
+          JULIA_PKG_PRECOMPILE_AUTO: "false"  # skip auto-precompile to avoid missing-source errors
         shell: julia --project=docs --color=yes {0}
         run: |
           using Pkg
           Pkg.develop(path=pwd())
           Pkg.instantiate()
+
       - uses: julia-actions/julia-buildpkg@v1
+
       - uses: julia-actions/julia-docdeploy@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           DOCUMENTER_KEY: ${{ secrets.DOCUMENTER_KEY }}
+
       - name: Run doctests
         shell: julia --project=docs --color=yes {0}
         run: |
           using Documenter: DocMeta, doctest
-          using Quizify             # ← make sure this matches your module name
+          using Quizify
           DocMeta.setdocmeta!(Quizify, :DocTestSetup, :(using Quizify); recursive=true)
           doctest(Quizify)
