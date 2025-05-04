@@ -12,9 +12,9 @@ makedocs(
     "Reference" => "reference.md",
   ],
   format     = Documenter.HTML(
-    canonical = "https://<your-username>.github.io/Quizify.jl",
+    canonical = "https://berrli.github.io/Quizify.jl",
     edit_link = "main",
   ),
-  authors    = ["Your Name"],
+  authors    = "Liam J Berrisford",
   # skip_missing_docs = true    # <- you can un-comment this
 )

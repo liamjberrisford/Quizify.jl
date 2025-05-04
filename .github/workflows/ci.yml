@@ -43,6 +43,9 @@ jobs:
   docs:
     name: Documentation
     runs-on: ubuntu-latest
+    # ← disable post-instantiate precompilation everywhere in this job
+    env:
+      JULIA_PKG_PRECOMPILE_AUTO: "false"
     permissions:
       actions: write
       contents: write
@@ -52,13 +55,11 @@ jobs:
 
       - uses: julia-actions/setup-julia@v2
         with:
-          version: '1'        # latest 1.x series (has the inline-table fix)
+          version: '1'        # latest 1.x series, includes the inline-table bugfix
 
       - uses: julia-actions/cache@v2
 
       - name: Configure doc environment
-        env:
-          JULIA_PKG_PRECOMPILE_AUTO: "false"  # skip auto-precompile to avoid missing-source errors
         shell: julia --project=docs --color=yes {0}
         run: |
           using Pkg
@@ -69,7 +70,7 @@ jobs:
 
       - uses: julia-actions/julia-docdeploy@v1
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN:   ${{ secrets.GITHUB_TOKEN }}
           DOCUMENTER_KEY: ${{ secrets.DOCUMENTER_KEY }}
 
       - name: Run doctests
