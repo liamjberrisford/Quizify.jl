@@ -1,6 +1,9 @@
 # Quizify.jl
 
-[![Build Status](https://github.com/yourusername/Quizify.jl/actions/workflows/ci.yml/badge.svg)](https://github.com/yourusername/Quizify.jl/actions/workflows/ci.yml)  
+[![CI](https://github.com/berrli/Quizify.jl/actions/workflows/ci.yml/badge.svg)](https://github.com/berrli/Quizify.jl/actions/workflows/ci.yml)  
+[![Test Suite](https://github.com/berrli/Quizify.jl/actions/workflows/test.yml/badge.svg)](https://github.com/berrli/Quizify.jl/actions/workflows/test.yml)  
+[![Codecov](https://codecov.io/gh/berrli/Quizify.jl/branch/main/graph/badge.svg)](https://codecov.io/gh/berrli/Quizify.jl)  
+[![Docs](https://github.com/berrli/Quizify.jl/actions/workflows/ci.yml/badge.svg?event=push)](https://berrli.github.io/Quizify.jl/)  
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
 Quizify.jl is a Julia package that converts quiz questions defined in a JSON file into an interactive HTML snippet, perfect for embedding in web-based course materials. It supports multiple-choice quizzes with styled buttons and immediate feedback—no server or backend required.
