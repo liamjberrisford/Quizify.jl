@@ -76,7 +76,10 @@ function build_quiz_html(path::AbstractString)::String
         for (j, answer) in enumerate(question["answers"])
             aid      = "q$(i)_a$(j)"
             feedback = answer["feedback"]
-            correct  = startswith(lowercase(feedback), "correct")
+            # Use the explicit `correct` field if provided, otherwise
+            # fall back to inferring from the feedback text for
+            # backwards compatibility.
+            correct  = haskey(answer, "correct") ? answer["correct"] : startswith(lowercase(feedback), "correct")
             html *= """
             <button type="button"
                     class="quiz-answer answer-$(qid)"
