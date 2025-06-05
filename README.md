@@ -22,7 +22,7 @@ This project was initially started to provide some basic functionality for anoth
 - **Zero dependencies** beyond JSON.jl
   No frameworks or web servers—just Julia and a browser or notebook.
 - **Multiple question types**
-  Support for single choice, true/false and short-answer questions out of the box.
+  Support for single choice, true/false, short-answer, and multiple-select questions out of the box.
 - **Score summary & chart**
   Displays a progress bar and bar chart of correct answers once all questions are completed.
 
