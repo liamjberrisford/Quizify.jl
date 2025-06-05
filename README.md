@@ -7,6 +7,8 @@
 
 Quizify.jl is a Julia package that converts quiz questions defined in a JSON file into an interactive HTML snippet, perfect for embedding in web-based course materials. It now supports several common quiz formats with styled widgets and immediate feedback—no server or backend required.
 
+This project was initially started to provide some basic functionality for another project. However due to its small size and lack of need in that project, I (@liamjberrisford) am now using it as a test bed for exploring the use of OpenAIs codex software engineering agent, and so you will notice that the PRs are now authored by codex and have the appropriate tag!
+
 ---
 
 ## Features
