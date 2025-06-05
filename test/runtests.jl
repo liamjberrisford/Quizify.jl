@@ -4,6 +4,7 @@ using Quizify
 # Path to the test JSON fixture
 const TEST_JSON = joinpath(@__DIR__, "test_quiz.json")
 const TEST_JSON_ALT = joinpath(@__DIR__, "test_quiz_alt.json")
+const TEST_JSON_MS = joinpath(@__DIR__, "test_quiz_multiselect.json")
 
 @testset "Quizify core functionality" begin
 
@@ -41,4 +42,10 @@ end
     @test occursin("Well done", html) # feedback is present
     # The second answer is marked correct via the `correct` flag even though the feedback doesn't start with "correct".
     @test occursin("onclick=\"handleAnswer('1', 'q1_a2', 'Well done', true)\"", html)
+end
+
+@testset "Multiple select" begin
+    html = Quizify.build_quiz_html(TEST_JSON_MS)
+    @test occursin("type=\"checkbox\"", html)
+    @test occursin("handleMultiSelect", html)
 end

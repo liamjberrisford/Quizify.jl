@@ -125,6 +125,24 @@ function build_quiz_html(path::AbstractString)::String
         }
         updateResults(qid, ans.toLowerCase() === correctAnswer.toLowerCase());
     }
+
+    function handleMultiSelect(qid, correctArray, fbCorrect, fbIncorrect) {
+        let checkboxes = document.querySelectorAll('.answer-' + qid);
+        let isCorrect = true;
+        checkboxes.forEach((cb, idx) => {
+            if (cb.checked !== correctArray[idx]) {
+                isCorrect = false;
+            }
+            cb.parentElement.classList.remove('correct', 'incorrect');
+            if (cb.checked) {
+                cb.parentElement.classList.add(correctArray[idx] ? 'correct' : 'incorrect');
+            }
+        });
+        let feedbackBox = document.getElementById('feedback_' + qid);
+        feedbackBox.innerHTML = isCorrect ? fbCorrect : fbIncorrect;
+        feedbackBox.style.color = isCorrect ? 'green' : 'red';
+        updateResults(qid, isCorrect);
+    }
     </script>
 
     <div class="quiz">
@@ -153,6 +171,23 @@ function build_quiz_html(path::AbstractString)::String
                 </button>
                 """
             end
+        elseif qtype == "multiple_select"
+            correct_flags = [get(a, "correct", false) for a in question["answers"]]
+            fb_correct = question["feedback_correct"]
+            fb_incorrect = question["feedback_incorrect"]
+            for (j, answer) in enumerate(question["answers"])
+                aid = "q$(i)_a$(j)"
+                html *= """
+                <label class="quiz-answer">
+                    <input type="checkbox" id="$(aid)" class="answer-$(qid)" />
+                    $(answer["answer"])
+                </label>
+                """
+            end
+            jsarray = join(string.(correct_flags), ",")
+            html *= """
+            <button type="button" class="quiz-answer" onclick="handleMultiSelect('$(qid)', [$(jsarray)], '$(escapejs(fb_correct))', '$(escapejs(fb_incorrect))')">Submit</button>
+            """
         elseif qtype == "true_false"
             correct = question["correct"]
             fb_true = question["feedback_true"]
