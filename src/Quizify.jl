@@ -5,6 +5,13 @@ using JSON
 export show_quiz_from_json
 
 """
+    escapejs(s::AbstractString) -> String
+
+Escape a Julia string for safe interpolation inside JavaScript single quotes.
+"""
+escapejs(s::AbstractString) = replace(replace(s, "\\" => "\\\\"), "'" => "\\'")
+
+"""
     build_quiz_html(path::AbstractString) -> String
 
 Read quiz data from the JSON file at `path` and return the complete
@@ -43,6 +50,7 @@ function build_quiz_html(path::AbstractString)::String
     .correct { background-color: #4CAF50 !important; color: white !important; border: none; }
     .incorrect { background-color: #D32F2F !important; color: white !important; border: none; }
     .feedback { margin-top: 10px; font-weight: bold; font-size: 1em; }
+    .quiz-text { width: 100%; padding: 10px; margin: 5px 0; border-radius: 10px; border: 1px solid #ccc; }
     </style>
 
     <script>
@@ -60,6 +68,23 @@ function build_quiz_html(path::AbstractString)::String
         feedbackBox.innerHTML = feedback;
         feedbackBox.style.color = isCorrect ? 'green' : 'red';
     }
+
+    function handleTextAnswer(qid, correctAnswer, fbCorrect, fbIncorrect) {
+        let input = document.getElementById('input_' + qid);
+        let ans = input.value.trim();
+        let feedbackBox = document.getElementById('feedback_' + qid);
+        if(ans.toLowerCase() === correctAnswer.toLowerCase()) {
+            feedbackBox.innerHTML = fbCorrect;
+            feedbackBox.style.color = 'green';
+            input.classList.add('correct');
+            input.classList.remove('incorrect');
+        } else {
+            feedbackBox.innerHTML = fbIncorrect;
+            feedbackBox.style.color = 'red';
+            input.classList.add('incorrect');
+            input.classList.remove('correct');
+        }
+    }
     </script>
 
     <div class="quiz">
@@ -67,27 +92,55 @@ function build_quiz_html(path::AbstractString)::String
 
     # Questions
     for (i, question) in enumerate(quiz_data)
-        qid = string(i)
+        qid   = string(i)
+        qtype = get(question, "type", "many_choice")
+
         html *= """
         <div class="quiz-question">$(question["question"])</div>
         <form class="quiz-form">
         """
-
-        for (j, answer) in enumerate(question["answers"])
-            aid      = "q$(i)_a$(j)"
-            feedback = answer["feedback"]
-            # Use the explicit `correct` field if provided, otherwise
-            # fall back to inferring from the feedback text for
-            # backwards compatibility.
-            correct  = haskey(answer, "correct") ? answer["correct"] : startswith(lowercase(feedback), "correct")
+        if qtype == "many_choice" || qtype == "single_choice"
+            for (j, answer) in enumerate(question["answers"])
+                aid      = "q$(i)_a$(j)"
+                feedback = answer["feedback"]
+                correct  = get(answer, "correct", false)
+                html *= """
+                <button type="button"
+                        class="quiz-answer answer-$(qid)"
+                        id="$(aid)"
+                        onclick="handleAnswer('$(qid)', '$(aid)', '$(escapejs(feedback))', $(correct))">
+                    $(answer["answer"])
+                </button>
+                """
+            end
+        elseif qtype == "true_false"
+            correct = question["correct"]
+            fb_true = question["feedback_true"]
+            fb_false = question["feedback_false"]
             html *= """
             <button type="button"
                     class="quiz-answer answer-$(qid)"
-                    id="$(aid)"
-                    onclick="handleAnswer('$(qid)', '$(aid)', '$(feedback)', $(correct))">
-                $(answer["answer"])
+                    id="q$(i)_true"
+                    onclick="handleAnswer('$(qid)', 'q$(i)_true', '$(escapejs(fb_true))', $(correct==true))">
+                True
+            </button>
+            <button type="button"
+                    class="quiz-answer answer-$(qid)"
+                    id="q$(i)_false"
+                    onclick="handleAnswer('$(qid)', 'q$(i)_false', '$(escapejs(fb_false))', $(correct==false))">
+                False
             </button>
             """
+        elseif qtype == "short_answer"
+            correct_answer = question["correct_answer"]
+            fb_correct = question["feedback_correct"]
+            fb_incorrect = question["feedback_incorrect"]
+            html *= """
+            <input type="text" class="quiz-text" id="input_$(qid)" />
+            <button type="button" class="quiz-answer" onclick="handleTextAnswer('$(qid)', '$(escapejs(correct_answer))', '$(escapejs(fb_correct))', '$(escapejs(fb_incorrect))')">Submit</button>
+            """
+        else
+            error("Unknown question type: $(qtype)")
         end
 
         html *= """

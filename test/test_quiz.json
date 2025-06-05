@@ -50,5 +50,19 @@
                 "feedback": "Incorrect"
             }
         ]
+    },
+    {
+        "question": "The sky is blue",
+        "type": "true_false",
+        "correct": true,
+        "feedback_true": "Correct",
+        "feedback_false": "Incorrect"
+    },
+    {
+        "question": "Chemical symbol for water",
+        "type": "short_answer",
+        "correct_answer": "H2O",
+        "feedback_correct": "Correct",
+        "feedback_incorrect": "Incorrect"
     }
 ]
