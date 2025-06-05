@@ -64,5 +64,16 @@
         "correct_answer": "H2O",
         "feedback_correct": "Correct",
         "feedback_incorrect": "Incorrect"
+    },
+    {
+        "question": "Select the prime numbers",
+        "type": "multiple_select",
+        "answers": [
+            {"answer": "2", "correct": true},
+            {"answer": "3", "correct": true},
+            {"answer": "4", "correct": false}
+        ],
+        "feedback_correct": "Well done",
+        "feedback_incorrect": "Try again"
     }
 ]

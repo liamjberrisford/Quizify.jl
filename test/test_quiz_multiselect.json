@@ -1,0 +1,13 @@
+[
+    {
+        "question": "Select prime numbers",
+        "type": "multiple_select",
+        "answers": [
+            {"answer": "2", "correct": true},
+            {"answer": "3", "correct": true},
+            {"answer": "4", "correct": false}
+        ],
+        "feedback_correct": "Great",
+        "feedback_incorrect": "Nope"
+    }
+]
