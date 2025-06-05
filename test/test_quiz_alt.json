@@ -1,0 +1,10 @@
+[
+    {
+        "question": "Alt Question 1",
+        "type": "many_choice",
+        "answers": [
+            {"answer": "A1", "correct": false, "feedback": "Nope"},
+            {"answer": "A2", "correct": true,  "feedback": "Well done"}
+        ]
+    }
+]

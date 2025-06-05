@@ -3,6 +3,7 @@ using Quizify
 
 # Path to the test JSON fixture
 const TEST_JSON = joinpath(@__DIR__, "test_quiz.json")
+const TEST_JSON_ALT = joinpath(@__DIR__, "test_quiz_alt.json")
 
 @testset "Quizify core functionality" begin
 
@@ -31,4 +32,11 @@ const TEST_JSON = joinpath(@__DIR__, "test_quiz.json")
     html2 = Quizify.show_quiz_from_json(TEST_JSON)
     @test html2 == html
 
+end
+
+@testset "Correct flag handling" begin
+    html = Quizify.build_quiz_html(TEST_JSON_ALT)
+    @test occursin("Well done", html) # feedback is present
+    # The second answer is marked correct via the `correct` flag even though the feedback doesn't start with "correct".
+    @test occursin("onclick=\"handleAnswer('1', 'q1_a2', 'Well done', true)\"", html)
 end

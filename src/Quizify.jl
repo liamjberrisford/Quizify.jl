@@ -99,7 +99,6 @@ function build_quiz_html(path::AbstractString)::String
         <div class="quiz-question">$(question["question"])</div>
         <form class="quiz-form">
         """
-
         if qtype == "many_choice" || qtype == "single_choice"
             for (j, answer) in enumerate(question["answers"])
                 aid      = "q$(i)_a$(j)"
