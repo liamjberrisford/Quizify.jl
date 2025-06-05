@@ -24,32 +24,55 @@ Quizify.jl is a Julia package that converts quiz questions defined in a JSON fil
 
 ---
 
-## Example JSON
+## Installation
+
+Install the package using Julia's package manager:
+
+```julia
+julia> using Pkg
+julia> Pkg.add(url="https://github.com/berrli/Quizify.jl")
+```
+
+(If the package is registered you can simply run `Pkg.add("Quizify")`.)
+
+## Defining a Quiz
+
+Create a JSON file where each object represents a question and its possible answers. A minimal example `myquiz.json` might look like
 
 ```json
 [
   {
-    "question": "Select the correct option",
-    "type": "many_choice",
+    "question": "What is 2 + 2?",
     "answers": [
-      {"answer": "A", "correct": false, "feedback": "Try again"},
-      {"answer": "B", "correct": true,  "feedback": "Correct!"}
+      {"answer": "3", "correct": false, "feedback": "Try again"},
+      {"answer": "4", "correct": true,  "feedback": "Correct!"}
     ]
-  },
-  {
-    "question": "The Earth is round",
-    "type": "true_false",
-    "correct": true,
-    "feedback_true": "Correct",
-    "feedback_false": "Incorrect"
-  },
-  {
-    "question": "Chemical symbol for water",
-    "type": "short_answer",
-    "correct_answer": "H2O",
-    "feedback_correct": "Correct",
-    "feedback_incorrect": "Incorrect"
   }
 ]
 ```
 
+## Using Quizify
+
+Rendering the quiz is a single call to `show_quiz_from_json`:
+
+```julia
+using Quizify
+
+html = show_quiz_from_json("myquiz.json")
+```
+
+In a notebook environment the HTML quiz appears inline. In a plain REPL the
+HTML is printed and also returned so you can write it to a file:
+
+```julia
+write("quiz.html", html)
+```
+
+If you only need the HTML string without displaying it, use the lower level
+`build_quiz_html` function:
+
+```julia
+html = build_quiz_html("myquiz.json")
+```
+
+You can then embed that HTML snippet into any webpage.
