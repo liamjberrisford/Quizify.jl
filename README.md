@@ -21,6 +21,8 @@ Quizify.jl is a Julia package that converts quiz questions defined in a JSON fil
   No frameworks or web servers—just Julia and a browser or notebook.
 - **Multiple question types**
   Support for single choice, true/false and short-answer questions out of the box.
+- **Score summary**
+  Shows a progress bar with your final score once all questions are answered.
 
 ---
 

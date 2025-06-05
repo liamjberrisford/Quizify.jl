@@ -51,9 +51,30 @@ function build_quiz_html(path::AbstractString)::String
     .incorrect { background-color: #D32F2F !important; color: white !important; border: none; }
     .feedback { margin-top: 10px; font-weight: bold; font-size: 1em; }
     .quiz-text { width: 100%; padding: 10px; margin: 5px 0; border-radius: 10px; border: 1px solid #ccc; }
+    .results-container { margin-top: 20px; font-weight: bold; }
+    .score-bar-bg { background-color: #f2f2f2; border-radius: 10px; height: 20px; width: 100%; }
+    .score-bar-fill { background-color: #6c63ff; height: 100%; border-radius: 10px; width: 0%; transition: width 0.5s; }
     </style>
 
     <script>
+    var quizResults = {};
+    var totalQuestions = $(length(quiz_data));
+
+    function updateResults(qid, isCorrect) {
+        quizResults[qid] = isCorrect;
+        if (Object.keys(quizResults).length === totalQuestions) {
+            showFinalResults();
+        }
+    }
+
+    function showFinalResults() {
+        let correct = Object.values(quizResults).filter(x => x).length;
+        document.getElementById('score-text').innerHTML =
+            `Score: ${correct} / ${totalQuestions}`;
+        document.getElementById('score-fill').style.width =
+            (100 * correct / totalQuestions) + '%';
+        document.getElementById('quiz-results').style.display = 'block';
+    }
     function handleAnswer(qid, aid, feedback, isCorrect) {
         // Reset all buttons for the question
         let buttons = document.querySelectorAll(".answer-" + qid);
@@ -67,6 +88,7 @@ function build_quiz_html(path::AbstractString)::String
         let feedbackBox = document.getElementById('feedback_' + qid);
         feedbackBox.innerHTML = feedback;
         feedbackBox.style.color = isCorrect ? 'green' : 'red';
+        updateResults(qid, isCorrect);
     }
 
     function handleTextAnswer(qid, correctAnswer, fbCorrect, fbIncorrect) {
@@ -84,6 +106,7 @@ function build_quiz_html(path::AbstractString)::String
             input.classList.add('incorrect');
             input.classList.remove('correct');
         }
+        updateResults(qid, ans.toLowerCase() === correctAnswer.toLowerCase());
     }
     </script>
 
@@ -150,7 +173,14 @@ function build_quiz_html(path::AbstractString)::String
         """
     end
 
-    html *= "</div>\n"
+    html *= """
+        <div class="results-container" id="quiz-results" style="display:none;">
+            <div class="score-bar-bg">
+                <div class="score-bar-fill" id="score-fill"></div>
+            </div>
+            <div id="score-text"></div>
+        </div>
+    </div>\n"""
     return html
 end
 
