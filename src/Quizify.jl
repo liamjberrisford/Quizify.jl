@@ -70,7 +70,7 @@ function build_quiz_html(path::AbstractString)::String
     function showFinalResults() {
         let correct = Object.values(quizResults).filter(x => x).length;
         document.getElementById('score-text').innerHTML =
-            `Score: ${correct} / ${totalQuestions}`;
+            `Score: \${correct} / \${totalQuestions}`;
         document.getElementById('score-fill').style.width =
             (100 * correct / totalQuestions) + '%';
         document.getElementById('quiz-results').style.display = 'block';
