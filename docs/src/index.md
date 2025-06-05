@@ -4,10 +4,10 @@ Quizify.jl renders static HTML quizzes from JSON files, for easy embedding in co
 
 ## Interactive Example
 
-Below is a sample quiz rendered at build time using `Quizify.build_quiz_html`.
+Below is a sample quiz loaded via an iframe so you can try it directly in the docs.
 
 ```@raw html
-$(Quizify.build_quiz_html(joinpath(@__DIR__, "sample_quiz.json")))
+<iframe src="assets/sample_quiz.html" style="width:100%;height:600px;border:none;"></iframe>
 ```
 
 ```@autodocs

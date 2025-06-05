@@ -13,6 +13,7 @@ makedocs(
   format     = Documenter.HTML(
     canonical = "https://berrli.github.io/Quizify.jl",
     edit_link = "main",
+    assets    = ["assets"],
   ),
   authors    = "Liam J Berrisford",
   # skip_missing_docs = true    # <- you can un-comment this
