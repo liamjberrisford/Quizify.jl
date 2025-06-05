@@ -28,6 +28,7 @@ const TEST_JSON_ALT = joinpath(@__DIR__, "test_quiz_alt.json")
     @test occursin("<style>",  html)
     @test occursin("<script>", html)
     @test occursin("id=\"quiz-results\"", html)
+    @test occursin("id=\"result-chart\"", html)
 
     # 5) show_quiz_from_json should return exactly the same HTML string
     html2 = Quizify.show_quiz_from_json(TEST_JSON)

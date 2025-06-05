@@ -74,6 +74,23 @@ function build_quiz_html(path::AbstractString)::String
         document.getElementById('score-fill').style.width =
             (100 * correct / totalQuestions) + '%';
         document.getElementById('quiz-results').style.display = 'block';
+        drawChart();
+    }
+
+    function drawChart() {
+        let canvas = document.getElementById('result-chart');
+        if (!canvas) return;
+        let ctx = canvas.getContext('2d');
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        let barWidth = 20;
+        let gap = 10;
+        let maxHeight = canvas.height - 20;
+        Object.keys(quizResults).forEach((qid, idx) => {
+            ctx.fillStyle = quizResults[qid] ? '#4CAF50' : '#D32F2F';
+            let x = idx * (barWidth + gap);
+            let height = maxHeight;
+            ctx.fillRect(x, canvas.height - height, barWidth, height);
+        });
     }
     function handleAnswer(qid, aid, feedback, isCorrect) {
         // Reset all buttons for the question
@@ -179,6 +196,7 @@ function build_quiz_html(path::AbstractString)::String
                 <div class="score-bar-fill" id="score-fill"></div>
             </div>
             <div id="score-text"></div>
+            <canvas id="result-chart" width="300" height="100"></canvas>
         </div>
     </div>\n"""
     return html
